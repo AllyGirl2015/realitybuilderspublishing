@@ -177,6 +177,14 @@ export default function ShopPage() {
             ? (book.reviews.reduce((sum, r) => sum + r.rating, 0) / book.reviews.length).toFixed(1)
             : '0');
 
+          const primaryBuy = book.buyLinks && book.buyLinks.length > 0
+            ? book.buyLinks[0]
+            : book.buyUrl
+              ? { label: 'Buy Now', url: book.buyUrl }
+              : null;
+
+          const secondaryBuy = book.buyLinks && book.buyLinks.length > 1 ? book.buyLinks[1] : null;
+
           return (
             <motion.div
               key={book.id}
@@ -235,15 +243,15 @@ export default function ShopPage() {
                 </p>
 
                 <div className="flex gap-2 mt-4">
-                  {book.buyUrl ? (
+                  {primaryBuy ? (
                     <a
-                      href={book.buyUrl}
+                      href={primaryBuy.url}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold py-3 rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2 text-sm"
                     >
                       <ShoppingCart className="w-4 h-4" />
-                      Buy Now
+                      {primaryBuy.label}
                     </a>
                   ) : (
                     <button disabled className="flex-1 bg-gray-700 text-gray-400 font-bold py-3 rounded-lg cursor-not-allowed flex items-center justify-center gap-2 text-sm">
@@ -251,6 +259,18 @@ export default function ShopPage() {
                       Coming Soon
                     </button>
                   )}
+
+                  {secondaryBuy && (
+                    <a
+                      href={secondaryBuy.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-4 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center text-sm"
+                    >
+                      {secondaryBuy.label}
+                    </a>
+                  )}
+
                   <Link
                     href={`/books/${book.id}`}
                     className="px-4 py-3 bg-white/10 text-white font-bold rounded-lg hover:bg-white/20 transition-colors flex items-center justify-center"

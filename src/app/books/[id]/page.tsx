@@ -102,8 +102,20 @@ export default async function BookPage({ params }: PageProps) {
               </div>
 
               <div className="mt-auto pt-8 border-t border-white/10 flex flex-col sm:flex-row gap-4">
-                {book.buyUrl ? (
-                  <a 
+                {book.buyLinks && book.buyLinks.length > 0 ? (
+                  book.buyLinks.map((link) => (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 bg-gradient-to-r from-pink-500 to-purple-600 text-white px-8 py-4 rounded-xl font-bold hover:opacity-90 transition-opacity shadow-lg shadow-pink-500/20 text-lg text-center flex items-center justify-center"
+                    >
+                      {link.label}
+                    </a>
+                  ))
+                ) : book.buyUrl ? (
+                  <a
                     href={book.buyUrl}
                     target="_blank"
                     rel="noopener noreferrer"

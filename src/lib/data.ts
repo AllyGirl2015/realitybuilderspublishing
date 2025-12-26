@@ -31,6 +31,7 @@ export interface Book {
   pages: number;
   reviews: Review[];
   buyUrl?: string;
+  buyLinks?: { label: string; url: string }[];
   language?: string;
   rating?: number;
   fileSize?: string;
@@ -64,7 +65,17 @@ export const books: Book[] = [
     genre: 'Transformation Drama',
     pages: 109,
     reviews: [],
-    buyUrl: 'https://www.amazon.com/dp/B0DTBL1S5S',
+    buyUrl: 'https://shop.ingramspark.com/b/084?params=7q1V2niCmQiDxIXu9HAd18hddSyF9jGwPrCLNuI409t',
+    buyLinks: [
+      {
+        label: 'IngramSpark (Physical)',
+        url: 'https://shop.ingramspark.com/b/084?params=7q1V2niCmQiDxIXu9HAd18hddSyF9jGwPrCLNuI409t'
+      },
+      {
+        label: 'Amazon (eBook)',
+        url: 'https://www.amazon.com/dp/B0DTBL1S5S'
+      }
+    ],
     language: 'English',
     rating: 5,
     fileSize: '8.5 MB',
