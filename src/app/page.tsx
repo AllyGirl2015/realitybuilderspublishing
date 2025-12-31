@@ -86,6 +86,18 @@ export default function Home() {
         </div>
       </section>
 
+      {/* About Reality Builders Publishing */}
+      <section className="relative z-10 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-white mb-6">About Reality Builders Publishing</h2>
+          <p className="text-lg text-gray-300 leading-relaxed">
+            Reality Builders Publishing (RBP) is the publishing division of Reality Builders Entertainment Works, focused on independent literature, long-form storytelling, and thoughtful creative works.
+            RBP publishes physical and digital books with an emphasis on quality presentation, meaningful content, and long-term availability rather than disposable releases.
+            All titles are produced with professional standards and distributed through established industry channels.
+          </p>
+        </div>
+      </section>
+
       {/* Featured Books */}
       <section className="relative z-10">
         <div className="flex justify-between items-end mb-8 px-4">

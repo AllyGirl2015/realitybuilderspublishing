@@ -38,6 +38,9 @@ export default function Navbar() {
             <Link href="/about" className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
               About
             </Link>
+            <Link href="/standards" className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
+              Standards
+            </Link>
             <Link href="/authors" className="text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-2 hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
               <Users className="w-4 h-4" />
               Authors
@@ -80,6 +83,10 @@ export default function Navbar() {
             <Link href="/about" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
               <Users className="w-5 h-5" />
               About
+            </Link>
+            <Link href="/standards" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
+              <Users className="w-5 h-5" />
+              Standards
             </Link>
             <Link href="/authors" className="flex items-center gap-3 px-4 py-3 text-gray-300 hover:text-white hover:bg-white/5 rounded-xl transition-colors" onClick={() => setIsMobileMenuOpen(false)}>
               <Users className="w-5 h-5" />

@@ -23,6 +23,93 @@ function hashString(str: string): number {
   return Math.abs(hash);
 }
 
+// Star class
+class Star {
+  x: number;
+  y: number;
+  size: number;
+  speed: number;
+  opacity: number;
+  twinkleSpeed: number;
+  twinklePhase: number;
+
+  constructor(random: () => number, canvasWidth: number, canvasHeight: number) {
+    this.x = random() * canvasWidth;
+    this.y = random() * canvasHeight;
+    this.size = random() * 2;
+    this.speed = random() * 0.05;
+    this.opacity = random();
+    this.twinkleSpeed = random() * 0.02 + 0.01;
+    this.twinklePhase = random() * Math.PI * 2;
+  }
+
+  update() {
+    this.twinklePhase += this.twinkleSpeed;
+    this.opacity = (Math.sin(this.twinklePhase) + 1) / 2;
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    // Pinkish white stars
+    ctx.fillStyle = `rgba(255, 230, 240, ${this.opacity * 0.8})`;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+    ctx.fill();
+  }
+}
+
+// Nebula/Galaxy cloud class
+class Nebula {
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  opacity: number;
+  pulseSpeed: number;
+  pulsePhase: number;
+
+  constructor(random: () => number, canvasWidth: number, canvasHeight: number) {
+    this.x = random() * canvasWidth;
+    this.y = random() * canvasHeight;
+    this.size = random() * 300 + 200;
+    
+    // Pink and contrasting colors for nebulas
+    const colors = [
+      'rgba(255, 20, 147, 0.15)', // Deep Pink
+      'rgba(255, 105, 180, 0.12)', // Hot Pink
+      'rgba(147, 112, 219, 0.1)', // Medium Purple (Contrast)
+      'rgba(0, 255, 255, 0.05)',   // Cyan (High Contrast)
+    ];
+    this.color = colors[Math.floor(random() * colors.length)];
+    this.opacity = random() * 0.3 + 0.1;
+    this.pulseSpeed = random() * 0.001 + 0.0005;
+    this.pulsePhase = random() * Math.PI * 2;
+  }
+
+  update() {
+    this.pulsePhase += this.pulseSpeed;
+    this.opacity = (Math.sin(this.pulsePhase) + 1) / 2 * 0.3 + 0.1;
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    const gradient = ctx.createRadialGradient(
+      this.x, this.y, 0,
+      this.x, this.y, this.size
+    );
+    
+    gradient.addColorStop(0, this.color.replace(/[\d.]+\)$/g, `${this.opacity})`));
+    gradient.addColorStop(0.5, this.color.replace(/[\d.]+\)$/g, `${this.opacity * 0.5})`));
+    gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+    ctx.fillStyle = gradient;
+    ctx.fillRect(
+      this.x - this.size,
+      this.y - this.size,
+      this.size * 2,
+      this.size * 2
+    );
+  }
+}
+
 export default function SpaceBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,10 +119,6 @@ export default function SpaceBackground() {
 
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-
-    // Set canvas size immediately
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
 
     // Detect mobile device
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
@@ -53,95 +136,6 @@ export default function SpaceBackground() {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Star class
-    class Star {
-      x: number;
-      y: number;
-      size: number;
-      speed: number;
-      opacity: number;
-      twinkleSpeed: number;
-      twinklePhase: number;
-
-      constructor() {
-        this.x = random() * (canvas?.width || window.innerWidth);
-        this.y = random() * (canvas?.height || window.innerHeight);
-        this.size = random() * 2;
-        this.speed = random() * 0.05;
-        this.opacity = random();
-        this.twinkleSpeed = random() * 0.02 + 0.01;
-        this.twinklePhase = random() * Math.PI * 2;
-      }
-
-      update() {
-        this.twinklePhase += this.twinkleSpeed;
-        this.opacity = (Math.sin(this.twinklePhase) + 1) / 2;
-      }
-
-      draw() {
-        if (!ctx) return;
-        // Pinkish white stars
-        ctx.fillStyle = `rgba(255, 230, 240, ${this.opacity * 0.8})`;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    // Nebula/Galaxy cloud class
-    class Nebula {
-      x: number;
-      y: number;
-      size: number;
-      color: string;
-      opacity: number;
-      pulseSpeed: number;
-      pulsePhase: number;
-
-      constructor() {
-        this.x = random() * (canvas?.width || window.innerWidth);
-        this.y = random() * (canvas?.height || window.innerHeight);
-        this.size = random() * 300 + 200;
-        
-        // Pink and contrasting colors for nebulas
-        const colors = [
-          'rgba(255, 20, 147, 0.15)', // Deep Pink
-          'rgba(255, 105, 180, 0.12)', // Hot Pink
-          'rgba(147, 112, 219, 0.1)', // Medium Purple (Contrast)
-          'rgba(0, 255, 255, 0.05)',   // Cyan (High Contrast)
-        ];
-        this.color = colors[Math.floor(random() * colors.length)];
-        this.opacity = random() * 0.3 + 0.1;
-        this.pulseSpeed = random() * 0.001 + 0.0005;
-        this.pulsePhase = random() * Math.PI * 2;
-      }
-
-      update() {
-        this.pulsePhase += this.pulseSpeed;
-        this.opacity = (Math.sin(this.pulsePhase) + 1) / 2 * 0.3 + 0.1;
-      }
-
-      draw() {
-        if (!ctx) return;
-        const gradient = ctx.createRadialGradient(
-          this.x, this.y, 0,
-          this.x, this.y, this.size
-        );
-        
-        gradient.addColorStop(0, this.color.replace(/[\d.]+\)$/g, `${this.opacity})`));
-        gradient.addColorStop(0.5, this.color.replace(/[\d.]+\)$/g, `${this.opacity * 0.5})`));
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(
-          this.x - this.size,
-          this.y - this.size,
-          this.size * 2,
-          this.size * 2
-        );
-      }
-    }
-
     // Create stars and nebulas
     const stars: Star[] = [];
     const nebulas: Nebula[] = [];
@@ -151,11 +145,11 @@ export default function SpaceBackground() {
     const nebulaCount = 5;
 
     for (let i = 0; i < starCount; i++) {
-      stars.push(new Star());
+      stars.push(new Star(random, canvas.width, canvas.height));
     }
 
     for (let i = 0; i < nebulaCount; i++) {
-      nebulas.push(new Nebula());
+      nebulas.push(new Nebula(random, canvas.width, canvas.height));
     }
 
     // Function to draw everything
@@ -168,12 +162,12 @@ export default function SpaceBackground() {
 
       // Draw nebulas (background layer)
       nebulas.forEach(nebula => {
-        nebula.draw();
+        nebula.draw(ctx);
       });
 
       // Draw stars (foreground layer)
       stars.forEach(star => {
-        star.draw();
+        star.draw(ctx);
       });
     }
 
